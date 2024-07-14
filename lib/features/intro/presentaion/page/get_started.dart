@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify_clone/common/widgets/buttons/basic_appbutton.dart';
 import 'package:spotify_clone/core/configs/assets/app_images.dart';
 import 'package:spotify_clone/core/configs/assets/app_vectors.dart';
 import 'package:spotify_clone/core/configs/theme/app_colors.dart';
+import 'package:spotify_clone/features/intro/presentaion/bloc/intro_bloc.dart';
+import 'package:spotify_clone/features/intro/presentaion/page/choose_mode.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
@@ -15,14 +18,19 @@ class GetStartedPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 40.w),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(AppImages.introBG),
                 fit: BoxFit.fill,
               ),
             ),
-            child: SafeArea(
+          ),
+          Container(
+            decoration: BoxDecoration(color: Colors.black.withOpacity(0.15)),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 40.w),
               child: Column(
                 children: [
                   Align(
@@ -31,7 +39,7 @@ class GetStartedPage extends StatelessWidget {
                       AppVectors.logo,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
                     'Enjoy Listening To Music',
                     style: TextStyle(
@@ -49,18 +57,32 @@ class GetStartedPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  BasicAppbutton(
-                    onPressed: () {},
-                    text: 'Get Started',
-                    textColor: Colors.white,
+                  BlocListener<IntroBloc, IntroState>(
+                    bloc: context.read<IntroBloc>(),
+                    listenWhen: (previous, current) =>
+                        current is IntroActionableState,
+                    listener: (context, state) {
+                      if (state is GetStaretedButtonClickedState) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ChooseModePage()));
+                      }
+                    },
+                    child: BasicAppbutton(
+                      onPressed: () {
+                        context
+                            .read<IntroBloc>()
+                            .add(GetStaretedButtonClickedEvent());
+                      },
+                      text: 'Get Started',
+                      textColor: Colors.white,
+                    ),
                   )
                 ],
               ),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(color: Colors.black.withOpacity(0.15)),
-          )
         ],
       ),
     );
