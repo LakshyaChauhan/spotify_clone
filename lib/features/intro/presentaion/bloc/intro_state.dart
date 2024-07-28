@@ -1,12 +1,20 @@
 part of 'intro_bloc.dart';
 
-
-@immutable
 sealed class IntroState {}
 
-@immutable
 sealed class IntroActionableState extends IntroState {}
 
-final class IntroInitial extends IntroState {}
+final class IntroInitial extends IntroState {
+  final ThemeMode? themeMode;
+  IntroInitial({this.themeMode});
+}
 
-final class GetStaretedButtonClickedState extends IntroActionableState{}
+final class GetStaretedButtonClickedState extends IntroActionableState {}
+
+final class ChooseModeLightClickedState extends IntroState {
+}
+
+final class ChooseModeDarkClickedState extends IntroState {}
+
+final class ChooseModePageContinueButtonClickedState
+    extends IntroActionableState {}

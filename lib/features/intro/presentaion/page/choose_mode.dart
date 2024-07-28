@@ -1,10 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:spotify_clone/features/auth/presentation/pages/signup_signin.dart';
 import '../../../../common/widgets/buttons/basic_appbutton.dart';
 import '../../../../core/configs/assets/app_images.dart';
 import '../../../../core/configs/assets/app_vectors.dart';
@@ -55,19 +54,27 @@ class ChooseModePage extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          ClipOval(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                              child: Container(
-                                height: 80.h,
-                                width: 80.w,
-                                decoration: BoxDecoration(
-                                    color: const Color(0xff30393C)
-                                        .withOpacity(0.5),
-                                    shape: BoxShape.circle),
-                                child: SvgPicture.asset(
-                                  AppVectors.moon,
-                                  fit: BoxFit.none,
+                          InkWell(
+                            onTap: () {
+                              context
+                                  .read<IntroBloc>()
+                                  .add(ChooseModeDarkClickedEvent());
+                            },
+                            child: ClipOval(
+                              child: BackdropFilter(
+                                filter:
+                                    ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                child: Container(
+                                  height: 80.h,
+                                  width: 80.w,
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xff30393C)
+                                          .withOpacity(0.5),
+                                      shape: BoxShape.circle),
+                                  child: SvgPicture.asset(
+                                    AppVectors.moon,
+                                    fit: BoxFit.none,
+                                  ),
                                 ),
                               ),
                             ),
@@ -85,19 +92,27 @@ class ChooseModePage extends StatelessWidget {
                       SizedBox(width: 40.w),
                       Column(
                         children: [
-                          ClipOval(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                              child: Container(
-                                height: 80.h,
-                                width: 80.w,
-                                decoration: BoxDecoration(
-                                    color: const Color(0xff30393C)
-                                        .withOpacity(0.5),
-                                    shape: BoxShape.circle),
-                                child: SvgPicture.asset(
-                                  AppVectors.sun,
-                                  fit: BoxFit.none,
+                          InkWell(
+                            onTap: () {
+                              context
+                                  .read<IntroBloc>()
+                                  .add(ChooseModeLightClickedEvent());
+                            },
+                            child: ClipOval(
+                              child: BackdropFilter(
+                                filter:
+                                    ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                child: Container(
+                                  height: 80.h,
+                                  width: 80.w,
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xff30393C)
+                                          .withOpacity(0.5),
+                                      shape: BoxShape.circle),
+                                  child: SvgPicture.asset(
+                                    AppVectors.sun,
+                                    fit: BoxFit.none,
+                                  ),
                                 ),
                               ),
                             ),
@@ -117,11 +132,21 @@ class ChooseModePage extends StatelessWidget {
                   SizedBox(height: 40.h),
                   BlocListener<IntroBloc, IntroState>(
                     bloc: context.read<IntroBloc>(),
-                    // listenWhen: (previous, current) =>
-                    // current is IntroActionableState,
-                    listener: (context, state) {},
+                    listenWhen: (previous, current) =>
+                        current is ChooseModePageContinueButtonClickedState,
+                    listener: (context, state) {
+                      if (state is ChooseModePageContinueButtonClickedState) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const SignupSigninPage()));
+                      }
+                    },
                     child: BasicAppbutton(
-                      onPressed: () {},
+                      onPressed: () => context
+                          .read<IntroBloc>()
+                          .add(ChooseModePageContinueButtonClickedEvent()),
                       text: 'Continue',
                       textColor: Colors.white,
                     ),
