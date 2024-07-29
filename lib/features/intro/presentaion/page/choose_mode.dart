@@ -8,6 +8,7 @@ import '../../../../common/widgets/buttons/basic_appbutton.dart';
 import '../../../../core/configs/assets/app_images.dart';
 import '../../../../core/configs/assets/app_vectors.dart';
 import '../../../../core/configs/theme/app_colors.dart';
+import '../../../../core/configs/theme/bloc/theme_bloc.dart';
 import '../bloc/intro_bloc.dart';
 
 class ChooseModePage extends StatelessWidget {
@@ -57,8 +58,8 @@ class ChooseModePage extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               context
-                                  .read<IntroBloc>()
-                                  .add(ChooseModeDarkClickedEvent());
+                                  .read<ThemeBloc>()
+                                  .add(DarkModeButtonClickedEvent());
                             },
                             child: ClipOval(
                               child: BackdropFilter(
@@ -95,8 +96,8 @@ class ChooseModePage extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               context
-                                  .read<IntroBloc>()
-                                  .add(ChooseModeLightClickedEvent());
+                                  .read<ThemeBloc>()
+                                  .add(LightModeButtonClickedEvent());
                             },
                             child: ClipOval(
                               child: BackdropFilter(
