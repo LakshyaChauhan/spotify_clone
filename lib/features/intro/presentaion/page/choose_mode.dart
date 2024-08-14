@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:spotify_clone/features/auth/presentation/pages/signup_signin.dart';
+import 'package:spotify_clone/features/auth/signinOrSignUp/presentation/pages/signup_signin.dart';
 import '../../../../common/widgets/buttons/basic_appbutton.dart';
 import '../../../../core/configs/assets/app_images.dart';
 import '../../../../core/configs/assets/app_vectors.dart';

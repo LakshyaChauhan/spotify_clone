@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spotify_clone/common/appbar/basic_appbar.dart';
+import 'package:spotify_clone/common/helpers/is_dark_mode.dart';
 
 class BasicAppbutton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -21,7 +23,9 @@ class BasicAppbutton extends StatelessWidget {
             minimumSize: Size.fromHeight(height ?? 70.h)),
         child: Text(
           text,
-          style: TextStyle(color: textColor),
+          style: TextStyle(
+              color: textColor ??
+                  Colors.white),
         ));
   }
 }
