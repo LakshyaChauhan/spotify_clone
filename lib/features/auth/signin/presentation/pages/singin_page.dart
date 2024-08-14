@@ -4,11 +4,20 @@ import 'package:spotify_clone/common/appbar/basic_appbar.dart';
 import 'package:spotify_clone/common/widgets/buttons/basic_appbutton.dart';
 import 'package:spotify_clone/features/auth/signin/presentation/pages/register_page.dart';
 
+
 import '../../../../../core/configs/assets/app_vectors.dart';
 
-class SinginPage extends StatelessWidget {
+class SinginPage extends StatefulWidget {
   const SinginPage({super.key});
 
+  @override
+  State<SinginPage> createState() => _SinginPageState();
+}
+
+class _SinginPageState extends State<SinginPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +40,15 @@ class SinginPage extends StatelessWidget {
             const SizedBox(height: 20),
             _passwordText(context),
             const SizedBox(height: 20),
-            BasicAppbutton(onPressed: () {}, text: 'Sign In')
+            BasicAppbutton(
+                onPressed: () async {
+                  // var result = await sl<SignupUsecase>().call(
+                  //     params: CreateUserRequest(
+                  //         email: _emailController.text.toString(),
+                  //         password: _passwordController.text.toString(),
+                  //         fullName: _usernameController.text.toString()));
+                },
+                text: 'Sign In')
           ],
         ),
       ),
@@ -48,13 +65,15 @@ class SinginPage extends StatelessWidget {
 
   Widget _fullNameText(BuildContext context) {
     return TextField(
-      decoration: const InputDecoration(hintText: 'Username or Email')
+      controller: _emailController,
+      decoration: const InputDecoration(hintText: 'Email')
           .applyDefaults(Theme.of(context).inputDecorationTheme),
     );
   }
 
   Widget _passwordText(BuildContext context) {
     return TextField(
+      controller: _passwordController,
       decoration: const InputDecoration(hintText: 'Password')
           .applyDefaults(Theme.of(context).inputDecorationTheme),
     );

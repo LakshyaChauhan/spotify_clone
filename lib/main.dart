@@ -11,6 +11,7 @@ import 'package:spotify_clone/features/intro/presentaion/bloc/intro_bloc.dart';
 import 'package:spotify_clone/features/splash/presentaion/bloc/splash_bloc.dart';
 import 'package:spotify_clone/features/splash/presentaion/pages/splash_page.dart';
 import 'package:spotify_clone/firebase_options.dart';
+import 'package:spotify_clone/service_locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,7 @@ Future<void> main() async {
         : await getApplicationDocumentsDirectory(),
   );
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await initalizeDependencies();
   runApp(const MyApp());
 }
 
