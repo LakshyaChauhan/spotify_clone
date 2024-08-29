@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify_clone/common/appbar/basic_appbar.dart';
 import 'package:spotify_clone/common/widgets/buttons/basic_appbutton.dart';
+import 'package:spotify_clone/features/auth/signin/data/models/signin_user_request.dart';
+import 'package:spotify_clone/features/auth/signin/domain/usecases/signin_usecase.dart';
 import 'package:spotify_clone/features/auth/signin/presentation/pages/register_page.dart';
-
+import 'package:spotify_clone/features/root/presentation/pages/root_page.dart';
 
 import '../../../../../core/configs/assets/app_vectors.dart';
+import '../../../../../service_locator.dart';
 
 class SinginPage extends StatefulWidget {
   const SinginPage({super.key});
@@ -15,9 +18,16 @@ class SinginPage extends StatefulWidget {
 }
 
 class _SinginPageState extends State<SinginPage> {
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,11 +52,24 @@ class _SinginPageState extends State<SinginPage> {
             const SizedBox(height: 20),
             BasicAppbutton(
                 onPressed: () async {
-                  // var result = await sl<SignupUsecase>().call(
-                  //     params: CreateUserRequest(
-                  //         email: _emailController.text.toString(),
-                  //         password: _passwordController.text.toString(),
-                  //         fullName: _usernameController.text.toString()));
+                  var result = await sl<SigninUsecase>().call(
+                      params: SigninUserRequest(
+                          email: _emailController.text,
+                          password: _passwordController.text));
+
+                  result.fold((left) {
+                    var snackbar = SnackBar(
+                      content: Text(left),
+                      behavior: SnackBarBehavior.floating,
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  }, (right) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RootPage()),
+                      (route) => false,
+                    );
+                  });
                 },
                 text: 'Sign In')
           ],
@@ -74,6 +97,7 @@ class _SinginPageState extends State<SinginPage> {
   Widget _passwordText(BuildContext context) {
     return TextField(
       controller: _passwordController,
+      obscureText: true,
       decoration: const InputDecoration(hintText: 'Password')
           .applyDefaults(Theme.of(context).inputDecorationTheme),
     );

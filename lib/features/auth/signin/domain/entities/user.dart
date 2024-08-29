@@ -8,4 +8,6 @@ class UserEntity {
     this.userId,
     this.userName,
   });
+
+  
 }
