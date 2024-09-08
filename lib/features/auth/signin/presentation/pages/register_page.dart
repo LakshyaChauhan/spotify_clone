@@ -40,42 +40,44 @@ class _RegisterPageState extends State<RegisterPage> {
           width: 40,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 40, right: 40, top: 100),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _registerText(),
-            const SizedBox(height: 30),
-            _userNameText(context),
-            const SizedBox(height: 20),
-            _emailText(context),
-            const SizedBox(height: 20),
-            _passwordText(context),
-            const SizedBox(height: 20),
-            BasicAppbutton(
-              onPressed: () async {
-                var result = await sl<SignupUsecase>().call(
-                    params: CreateUserRequest(
-                        email: _emailController.text.toString(),
-                        password: _passwordController.text.toString(),
-                        fullName: _usernameController.text.toString()));
-                result.fold((ifLeft) {
-                  var snackbar = SnackBar(
-                      content: Text(ifLeft),
-                      behavior: SnackBarBehavior.floating);
-                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                }, (ifRight) {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (_) => const RootPage()),
-                    (route) => false,
-                  );
-                });
-              },
-              text: 'Create Account',
-            )
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 40, right: 40, top: 100),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _registerText(),
+              const SizedBox(height: 30),
+              _userNameText(context),
+              const SizedBox(height: 20),
+              _emailText(context),
+              const SizedBox(height: 20),
+              _passwordText(context),
+              const SizedBox(height: 20),
+              BasicAppbutton(
+                onPressed: () async {
+                  var result = await sl<SignupUsecase>().call(
+                      params: CreateUserRequest(
+                          email: _emailController.text.toString(),
+                          password: _passwordController.text.toString(),
+                          fullName: _usernameController.text.toString()));
+                  result.fold((ifLeft) {
+                    var snackbar = SnackBar(
+                        content: Text(ifLeft),
+                        behavior: SnackBarBehavior.floating);
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  }, (ifRight) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => const RootPage()),
+                      (route) => false,
+                    );
+                  });
+                },
+                text: 'Create Account',
+              )
+            ],
+          ),
         ),
       ),
     );

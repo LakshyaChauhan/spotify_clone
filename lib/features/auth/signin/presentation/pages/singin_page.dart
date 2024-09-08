@@ -39,40 +39,42 @@ class _SinginPageState extends State<SinginPage> {
           width: 40,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 40, right: 40, top: 100),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _signInText(),
-            const SizedBox(height: 30),
-            _fullNameText(context),
-            const SizedBox(height: 20),
-            _passwordText(context),
-            const SizedBox(height: 20),
-            BasicAppbutton(
-                onPressed: () async {
-                  var result = await sl<SigninUsecase>().call(
-                      params: SigninUserRequest(
-                          email: _emailController.text,
-                          password: _passwordController.text));
-
-                  result.fold((left) {
-                    var snackbar = SnackBar(
-                      content: Text(left),
-                      behavior: SnackBarBehavior.floating,
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                  }, (right) {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RootPage()),
-                      (route) => false,
-                    );
-                  });
-                },
-                text: 'Sign In')
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 40, right: 40, top: 100),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _signInText(),
+              const SizedBox(height: 30),
+              _fullNameText(context),
+              const SizedBox(height: 20),
+              _passwordText(context),
+              const SizedBox(height: 20),
+              BasicAppbutton(
+                  onPressed: () async {
+                    var result = await sl<SigninUsecase>().call(
+                        params: SigninUserRequest(
+                            email: _emailController.text,
+                            password: _passwordController.text));
+        
+                    result.fold((left) {
+                      var snackbar = SnackBar(
+                        content: Text(left),
+                        behavior: SnackBarBehavior.floating,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    }, (right) {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => const RootPage()),
+                        (route) => false,
+                      );
+                    });
+                  },
+                  text: 'Sign In')
+            ],
+          ),
         ),
       ),
     );
